@@ -1,6 +1,12 @@
 VERSION 0.7
-FROM alpine
 
-push:
-    RUN echo "Waiting for 15 seconds." && sleep 15 && echo "15 seconds have now passed."
-    RUN --no-cache echo "Waiting for 5 seconds." && sleep 5 && echo "5 seconds have now passed."
+FROM denoland/deno:alpine
+WORKDIR /app
+RUN apk add --no-cache tini
+ENTRYPOINT ["/sbin/tini", "--"]
+
+dist:
+    COPY server.ts .
+    RUN deno cache server.ts
+    CMD ["deno", "run", "--allow-net", "./server.ts"]
+    SAVE IMAGE --push theomessin/example

@@ -32,8 +32,12 @@ jobs:
             -v /tmp/earthly-cache:/filesystem \
             alpine sh -c \
             "cp -R /filesystem/* /volume/ && chmod -R 777 /volume"
+      - uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - run: |-
-          earthly --ci +push
+          earthly --ci --push +dist
       - run: |-
           docker run --rm \
             -v earthly-cache:/volume \
