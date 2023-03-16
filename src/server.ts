@@ -1,4 +1,4 @@
-import { serve } from "https://deno.land/std@0.157.0/http/server.ts";
+import { serve } from "../deps.ts";
 
 const handler = async (_request: Request): Promise<Response> => {
   const resp = await fetch("https://api.github.com/users/denoland", {

@@ -6,7 +6,8 @@ RUN apk add --no-cache tini
 ENTRYPOINT ["/sbin/tini", "--"]
 
 dist:
-    COPY server.ts .
-    RUN deno cache server.ts
-    CMD ["deno", "run", "--allow-net", "./server.ts"]
+    COPY deps.ts .
+    RUN deno cache deps.ts
+    COPY --dir src .
+    CMD ["deno", "run", "--allow-net", "src/server.ts"]
     SAVE IMAGE --push theomessin/example
