@@ -31,7 +31,7 @@ jobs:
             -v earthly-cache:/volume \
             -v /tmp/earthly-cache:/filesystem \
             alpine sh -c \
-            "\cp -R /filesystem/* /volume/ && chmod -R 777 /volume"
+            "cp -R /filesystem/* /volume/ && chmod -R 777 /volume"
       - run: |-
           earthly --ci +push
       - run: |-
@@ -39,4 +39,4 @@ jobs:
             -v earthly-cache:/volume \
             -v /tmp/earthly-cache:/filesystem \
             alpine sh -c \
-            "\cp -R /volume/* /filesystem/ && chmod -R 777 /filesystem"
+            "rm -Rf /filesystem/* && cp -R /volume/* /filesystem/ && chmod -R 777 /filesystem"
