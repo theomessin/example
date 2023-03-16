@@ -1,0 +1,42 @@
+---
+name: Example
+on:
+  push:
+    branches:
+      - master
+defaults:
+  run:
+    shell: bash
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: "read"
+      id-token: "write"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: earthly/actions-setup@v1
+        with:
+          version: "latest"
+      - id: cache
+        uses: actions/cache@v3
+        with:
+          path: /tmp/earthly-cache
+          key: earthly-cache-${{ github.run_id }}
+          restore-keys: |
+            earthly-cache
+      - continue-on-error: true
+        run: |-
+          [ -d "/tmp/earthly-cache" ] && docker run --rm \
+            -v earthly-cache:/volume \
+            -v /tmp/earthly-cache:/filesystem \
+            alpine sh -c \
+            "\cp -R /filesystem/* /volume/ && chmod -R 777 /volume"
+      - run: |-
+          earthly --ci +push
+      - run: |-
+          docker run --rm \
+            -v earthly-cache:/volume \
+            -v /tmp/earthly-cache:/filesystem \
+            alpine sh -c \
+            "\cp -R /volume/* /filesystem/ && chmod -R 777 /filesystem"
