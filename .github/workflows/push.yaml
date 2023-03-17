@@ -15,10 +15,10 @@ jobs:
       id-token: "write"
     steps:
       - uses: actions/checkout@v3
-      - uses: theomessin/actions-setup@main
+      - uses: earthly/actions-setup@v1
         with:
           version: "latest"
-          use-cache: true
+          use-cache: "true"
       - id: cache
         uses: actions/cache@v3
         with:
