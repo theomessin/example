@@ -18,6 +18,7 @@ jobs:
       - uses: theomessin/actions-setup@main
         with:
           version: "latest"
+          use-cache: true
       - id: cache
         uses: actions/cache@v3
         with:
