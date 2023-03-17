@@ -15,7 +15,7 @@ jobs:
       id-token: "write"
     steps:
       - uses: actions/checkout@v3
-      - uses: earthly/actions-setup@v1
+      - uses: theomessin/actions-setup@main
         with:
           version: "latest"
       - id: cache
