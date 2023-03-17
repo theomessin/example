@@ -11,4 +11,7 @@ dist:
     COPY --dir src .
     RUN deno check src/server.ts
     CMD ["deno", "run", "--allow-net", "src/server.ts"]
-    SAVE IMAGE --push theomessin/example
+    ARG EARTHLY_GIT_HASH
+    SAVE IMAGE --push \
+        theomessin/example:latest \
+        theomessin/example:$EARTHLY_GIT_HASH
