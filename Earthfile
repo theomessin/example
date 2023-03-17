@@ -9,5 +9,6 @@ dist:
     COPY deps.ts .
     RUN deno cache deps.ts
     COPY --dir src .
+    RUN deno check src/server.ts
     CMD ["deno", "run", "--allow-net", "src/server.ts"]
     SAVE IMAGE --push theomessin/example
